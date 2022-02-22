@@ -26,8 +26,9 @@ const Map = () => {
   let ind = useRef(0);
 
   useEffect(() => {
+    // @ts-ignore
     mapboxgl.accessToken = import.meta.env.VITE_MAP_KEY;
-
+    // @ts-ignore
     map.current = new mapboxgl.Map({
       container: "map",
       style: "mapbox://styles/mapbox/streets-v11",
@@ -39,11 +40,12 @@ const Map = () => {
       [-123.069003, 45.395273],
       [-122.303707, 45.612333],
     ];
-
+    // @ts-ignore
     map.current?.setMaxBounds(bounds);
 
     getRoute([-122.671453, 45.524569], [-122.663728, 45.524449]);
 
+    // @ts-ignore
     return () => map.current?.remove();
   }, []);
 
@@ -66,9 +68,12 @@ const Map = () => {
         },
       ],
     };
+    // @ts-ignore
     if (map.current?.getLayer(name)) {
+      // @ts-ignore
       map.current?.getSource(name).setData(end);
     } else {
+      // @ts-ignore
       map.current?.addLayer({
         id: name,
         type: "circle",
@@ -105,11 +110,13 @@ const Map = () => {
         coordinates,
       },
     };
-
+    // @ts-ignore
     if (map.current?.getSource("route")) {
+      // @ts-ignore
       map.current?.getSource("route").setData(geojson);
     } else {
       // otherwise, we'll make a new request
+      // @ts-ignore
       map.current?.addLayer({
         id: "route",
         type: "line",
