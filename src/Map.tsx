@@ -169,7 +169,7 @@ const Map = () => {
         <button onClick={simulateStep}>update</button>
       </div>
 
-      <div id="map" style={{ height: "1150px" }} />
+      <div id="map" style={{ height: "90vh" }} />
     </section>
   );
 };
