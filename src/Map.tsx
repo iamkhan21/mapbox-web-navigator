@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import "mapbox-gl/dist/mapbox-gl.css";
+import { updateCoordinates } from "./utils/helpers";
 
 const positions = [
   [-122.671179, 45.524483],
@@ -23,7 +24,7 @@ const accessToken = import.meta.env.VITE_MAP_KEY;
 
 const Map = () => {
   let map = useRef();
-  let coordinates = useRef();
+  let coordinates = useRef<number[][]>([[], []]);
   let ind = useRef(0);
 
   useEffect(() => {
@@ -160,12 +161,6 @@ const Map = () => {
 
     coordinates.current = route;
 
-    let x = 0;
-    for (const point of route) {
-      drawPoint(point, `point${x}`, "#e16b0b", 5);
-      x++;
-    }
-
     drawRoute(route);
     drawPoint(start);
     ind.current = 0;
@@ -173,8 +168,13 @@ const Map = () => {
 
   function simulateStep() {
     if (ind.current < positions.length) {
-      drawPoint(positions[ind.current]);
+      const position = positions[ind.current];
+      const route = updateCoordinates(coordinates.current, position);
 
+      coordinates.current = route;
+
+      drawPoint(position);
+      drawRoute(route);
       ind.current++;
     }
   }
