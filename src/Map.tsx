@@ -1,5 +1,4 @@
 import { useEffect, useRef } from "react";
-import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 
 const positions = [
@@ -20,30 +19,40 @@ const positions = [
   [-122.663622, 45.524448],
 ];
 
+const accessToken = import.meta.env.VITE_MAP_KEY;
+
 const Map = () => {
   let map = useRef();
   let coordinates = useRef();
   let ind = useRef(0);
 
   useEffect(() => {
-    // @ts-ignore
-    mapboxgl.accessToken = import.meta.env.VITE_MAP_KEY;
-    // @ts-ignore
-    map.current = new mapboxgl.Map({
-      container: "map",
-      style: "mapbox://styles/mapbox/streets-v11",
-      center: [-122.667569, 45.523825], // starting position
-      zoom: 15,
-    });
-    // set the bounds of the map
-    const bounds = [
-      [-123.069003, 45.395273],
-      [-122.303707, 45.612333],
-    ];
-    // @ts-ignore
-    map.current?.setMaxBounds(bounds);
+    (async () => {
+      const mapboxgl = (await import("mapbox-gl")).default;
 
-    getRoute([-122.671453, 45.524569], [-122.663728, 45.524449]);
+      // @ts-ignore
+      mapboxgl.accessToken = accessToken;
+      // @ts-ignore
+      map.current = new mapboxgl.Map({
+        container: "map",
+        style: "mapbox://styles/mapbox/streets-v11",
+        center: [-122.667569, 45.523825], // starting position
+        zoom: 15,
+      });
+      // set the bounds of the map
+      const bounds = [
+        [-123.069003, 45.395273],
+        [-122.303707, 45.612333],
+      ];
+
+      // @ts-ignore
+      map.current?.on("load", () => {
+        // @ts-ignore
+        map.current?.setMaxBounds(bounds);
+
+        getRoute([-122.671453, 45.524569], [-122.663728, 45.524449]);
+      });
+    })();
 
     // @ts-ignore
     return () => map.current?.remove();
@@ -142,7 +151,7 @@ const Map = () => {
     // an arbitrary start will always be the same
     // only the end or destination will change
     const query = await fetch(
-      `https://api.mapbox.com/directions/v5/mapbox/cycling/${start[0]},${start[1]};${end[0]},${end[1]}?steps=true&geometries=geojson&access_token=${mapboxgl.accessToken}`,
+      `https://api.mapbox.com/directions/v5/mapbox/cycling/${start[0]},${start[1]};${end[0]},${end[1]}?steps=true&geometries=geojson&access_token=${accessToken}`,
       { method: "GET" }
     );
     const json = await query.json();
