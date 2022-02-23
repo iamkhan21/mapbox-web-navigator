@@ -1,11 +1,15 @@
-import { lineString, point } from "@turf/helpers";
+import { lineString, point, Units } from "@turf/helpers";
 import pointToLineDistance from "@turf/point-to-line-distance";
+import length from "@turf/length";
 
-function findDistanceToLine(line: number[][], position: number[]): number {
-  const l = lineString(line);
+function findDistanceToLine(
+  coordinates: number[][],
+  position: number[]
+): number {
+  const line = lineString(coordinates);
   const pt = point(position);
 
-  return pointToLineDistance(pt, l, { units: "meters" });
+  return pointToLineDistance(pt, line, { units: "meters" });
 }
 
 export function updateCoordinates(
@@ -30,18 +34,13 @@ export function updateCoordinates(
   return [currentPosition, ...coordinates.slice(closest[1])];
 }
 
-// const position = [-122.67160177230834, 45.523254800933906];
-//
-// const route = [
-//   [-122.671454, 45.524581],
-//   [-122.673446, 45.524543],
-//   [-122.673386, 45.523072],
-//   [-122.671695, 45.523082],
-//   [-122.671592, 45.523135],
-//   [-122.661767, 45.522934],
-//   [-122.661771, 45.522219],
-//   [-122.66377, 45.522233],
-//   [-122.663733, 45.524449],
-// ];
 
-// console.log(updateCoordinates(route, position));
+export function calcDistance(
+  coordinates: number[][],
+  units: Units = "meters"
+): number {
+  const line = lineString(coordinates);
+
+  return length(line, { units });
+}
+

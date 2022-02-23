@@ -1,6 +1,6 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import "mapbox-gl/dist/mapbox-gl.css";
-import { updateCoordinates } from "./utils/helpers";
+import { calcDistance, updateCoordinates } from "./utils/helpers";
 
 const positions = [
   [-122.671179, 45.524483],
@@ -24,8 +24,12 @@ const accessToken = import.meta.env.VITE_MAP_KEY;
 
 const Map = () => {
   let map = useRef();
+  let speed = useRef(0);
   let coordinates = useRef<number[][]>([[], []]);
   let ind = useRef(0);
+
+  const [distance, setDistance] = useState(0);
+  const [time, setTime] = useState(0);
 
   useEffect(() => {
     (async () => {
@@ -152,18 +156,28 @@ const Map = () => {
     // an arbitrary start will always be the same
     // only the end or destination will change
     const query = await fetch(
-      `https://api.mapbox.com/directions/v5/mapbox/cycling/${start[0]},${start[1]};${end[0]},${end[1]}?steps=true&geometries=geojson&access_token=${accessToken}`,
+      `https://api.mapbox.com/directions/v5/mapbox/driving-traffic/${start[0]},${start[1]};${end[0]},${end[1]}?geometries=geojson&access_token=${accessToken}`,
       { method: "GET" }
     );
     const json = await query.json();
+
     const data = json.routes[0];
-    const route = data.geometry.coordinates;
+    const {
+      duration,
+      distance,
+      geometry: { coordinates: route },
+    } = data;
 
     coordinates.current = route;
 
     drawRoute(route);
     drawPoint(start);
+
+    setDistance(distance);
+    setTime(duration);
+
     ind.current = 0;
+    speed.current = distance / duration;
   }
 
   function simulateStep() {
@@ -175,18 +189,31 @@ const Map = () => {
 
       drawPoint(position);
       drawRoute(route);
+
+      const distance = calcDistance(route);
+
+      setDistance(distance);
+      setTime(distance / speed.current);
+
       ind.current++;
     }
   }
 
   return (
-    <section>
-      <div>
+    <article>
+      <section>
         <button onClick={simulateStep}>update</button>
-      </div>
+      </section>
+      <hr />
 
-      <div id="map" style={{ height: "90vh" }} />
-    </section>
+      <section>
+        <p>Distance: <b>{distance.toFixed()}</b> meters</p>
+        <p>Time: <b>{(time / 60).toFixed()}</b> min</p>
+      </section>
+
+      <br />
+      <section id="map" style={{ height: "80vh" }} />
+    </article>
   );
 };
 export default Map;

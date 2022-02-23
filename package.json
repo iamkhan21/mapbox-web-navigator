@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@turf/helpers": "6.5.0",
+    "@turf/length": "6.5.0",
     "@turf/point-to-line-distance": "6.5.0",
     "mapbox-gl": "2.7.0",
     "react": "17.0.2",
@@ -21,8 +22,8 @@
     "@types/react-dom": "17.0.11",
     "@vitejs/plugin-react": "1.2.0",
     "prettier": "2.5.1",
-    "typescript": "4.5.5",
     "tsm": "2.2.1",
+    "typescript": "4.5.5",
     "vite": "2.8.4"
   }
 }

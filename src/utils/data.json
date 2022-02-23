@@ -1,0 +1,57 @@
+{
+  "routes": [
+    {
+      "weight_typical": 394.358,
+      "duration_typical": 274.979,
+      "weight_name": "auto",
+      "weight": 394.358,
+      "duration": 274.979,
+      "distance": 1716.092,
+      "legs": [
+        {
+          "via_waypoints": [],
+          "admins": [
+            {
+              "iso_3166_1_alpha3": "USA",
+              "iso_3166_1": "US"
+            }
+          ],
+          "weight_typical": 394.358,
+          "duration_typical": 274.979,
+          "weight": 394.358,
+          "duration": 274.979,
+          "steps": [],
+          "distance": 1716.092,
+          "summary": "Burnside Bridge, Southeast 2nd Avenue"
+        }
+      ],
+      "geometry": {
+        "coordinates": [
+          [-122.671406, 45.524581],
+          [-122.673446, 45.524542],
+          [-122.673386, 45.523072],
+          [-122.671695, 45.523082],
+          [-122.671592, 45.523135],
+          [-122.662697, 45.522958],
+          [-122.661766, 45.522934],
+          [-122.66177, 45.522219],
+          [-122.66377, 45.522233],
+          [-122.663733, 45.524449]
+        ],
+        "type": "LineString"
+      }
+    }
+  ],
+  "waypoints": [
+    {
+      "distance": 3.901,
+      "name": "Northwest Davis Street",
+      "location": [-122.671406, 45.524581]
+    },
+    {
+      "distance": 0.356,
+      "name": "Northeast 2nd Avenue",
+      "location": [-122.663733, 45.524449]
+    }
+  ]
+}
