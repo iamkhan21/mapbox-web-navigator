@@ -188,16 +188,15 @@ const Map = () => {
       const position = positions[ind.current];
       const route = updateCoordinates(coordinates.current, position);
 
-      coordinates.current = route;
-
-      drawPoint(position);
-      drawRoute(route);
-
       const dist = calcDistance(route);
 
       if (dist - distance > 150) {
         getRoute(route[0], route[route.length - 1]);
       } else {
+        coordinates.current = route;
+        drawPoint(position);
+
+        drawRoute(route);
         setDistance(dist);
         setTime(dist / speed.current);
       }
