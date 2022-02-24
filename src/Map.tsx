@@ -8,6 +8,10 @@ const positions = [
   [-122.673481, 45.52419],
   [-122.673333, 45.52353],
   [-122.673515, 45.523122],
+  [-122.67337203025818, 45.5222625700842],
+  [-122.6741123199463, 45.52092453410748],
+  [-122.67509937286377, 45.521247770432666],
+  [-122.67441272735596, 45.52304432918567],
   [-122.673019, 45.523128],
   [-122.671943, 45.523119],
   [-122.670661, 45.523046],
@@ -176,7 +180,6 @@ const Map = () => {
     setDistance(distance);
     setTime(duration);
 
-    ind.current = 0;
     speed.current = distance / duration;
   }
 
@@ -190,10 +193,14 @@ const Map = () => {
       drawPoint(position);
       drawRoute(route);
 
-      const distance = calcDistance(route);
+      const dist = calcDistance(route);
 
-      setDistance(distance);
-      setTime(distance / speed.current);
+      if (dist - distance > 150) {
+        getRoute(route[0], route[route.length - 1]);
+      } else {
+        setDistance(dist);
+        setTime(dist / speed.current);
+      }
 
       ind.current++;
     }
@@ -207,8 +214,12 @@ const Map = () => {
       <hr />
 
       <section>
-        <p>Distance: <b>{distance.toFixed()}</b> meters</p>
-        <p>Time: <b>{(time / 60).toFixed()}</b> min</p>
+        <p>
+          Distance: <b>{distance.toFixed()}</b> meters
+        </p>
+        <p>
+          Time: <b>{(time / 60).toFixed()}</b> min
+        </p>
       </section>
 
       <br />
