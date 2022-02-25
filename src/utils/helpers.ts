@@ -1,6 +1,7 @@
 import { lineString, point, Units } from "@turf/helpers";
 import pointToLineDistance from "@turf/point-to-line-distance";
 import length from "@turf/length";
+import { GeoPoint } from "./convertors";
 
 function findDistanceToLine(
   coordinates: number[][],
@@ -9,13 +10,13 @@ function findDistanceToLine(
   const line = lineString(coordinates);
   const pt = point(position);
 
-  return pointToLineDistance(pt, line, { units: "meters" });
+  return +pointToLineDistance(pt, line, { units: "meters" }).toFixed();
 }
 
 export function updateCoordinates(
   coordinates: number[][],
   currentPosition: number[]
-): number[][] {
+): GeoPoint[] {
   let closest = [Number.MAX_VALUE, 0];
 
   for (let i = 1, len = coordinates.length; i < len; i++) {
@@ -24,16 +25,14 @@ export function updateCoordinates(
       currentPosition
     );
 
-    if (dist < closest[0]) {
+    if (dist <= closest[0]) {
       closest = [dist, i];
     } else {
       break;
     }
   }
-
-  return [currentPosition, ...coordinates.slice(closest[1])];
+  return [currentPosition, ...coordinates.slice(closest[1])] as GeoPoint[];
 }
-
 
 export function calcDistance(
   coordinates: number[][],
@@ -43,4 +42,3 @@ export function calcDistance(
 
   return length(line, { units });
 }
-

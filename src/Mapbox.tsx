@@ -24,9 +24,9 @@ const positions = [
   [-122.663622, 45.524448],
 ];
 
-const accessToken = import.meta.env.VITE_MAP_KEY;
+const accessToken = import.meta.env.VITE_MAPBOX_KEY;
 
-const Map = () => {
+const Mapbox = () => {
   let map = useRef();
   let speed = useRef(0);
   let coordinates = useRef<number[][]>([[], []]);
@@ -226,4 +226,4 @@ const Map = () => {
     </article>
   );
 };
-export default Map;
+export default Mapbox;

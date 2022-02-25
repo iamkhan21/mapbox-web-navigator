@@ -1,11 +1,11 @@
-import Map from "./Map";
-
+import Mapbox from "./Mapbox";
+import GoogleMaps from "./GoogleMaps";
 
 function App() {
   return (
     <article>
-      <h3>Map route</h3>
-      <Map />
+      {/*<Mapbox />*/}
+      <GoogleMaps />
     </article>
   );
 }
