@@ -189,8 +189,7 @@ const Mapbox = () => {
       const route = updateCoordinates(coordinates.current, position);
 
       const dist = calcDistance(route);
-
-      if (dist - distance > 150) {
+      if (dist - distance > 100) {
         getRoute(route[0], route[route.length - 1]);
       } else {
         coordinates.current = route;

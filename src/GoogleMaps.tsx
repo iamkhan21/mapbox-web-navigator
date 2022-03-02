@@ -67,19 +67,7 @@ const Map: FC<Props> = ({ finalPosition }) => {
 
   useEffect(() => {
     (async () => {
-      if (finalPosition) {
-        const { distance, time, path } = await getRoute(
-          position,
-          finalPosition
-        );
-        // @ts-ignore
-        route.current = path;
-        speed.current = distance / time;
-
-        setTime(time);
-        setDistance(distance);
-        drawPath(route.current);
-      }
+      if (finalPosition) buildRoute();
     })();
   }, [finalPosition]);
   // @ts-ignore
@@ -92,14 +80,32 @@ const Map: FC<Props> = ({ finalPosition }) => {
       );
 
       const dist = calcDistance(path);
-      // @ts-ignore
-      route.current = path;
 
-      setTime(dist / speed.current);
-      setDistance(dist);
-      drawPath(route.current);
+      if (dist - distance > 100) {
+        buildRoute();
+      } else {
+        // @ts-ignore
+        route.current = path;
+
+        setTime(dist / speed.current);
+        setDistance(dist);
+        drawPath(route.current);
+      }
     }
   }, [position]);
+
+  async function buildRoute() {
+    if (!finalPosition) return;
+
+    const { distance, time, path } = await getRoute(position, finalPosition);
+    // @ts-ignore
+    route.current = path;
+    speed.current = distance / time;
+
+    setTime(time);
+    setDistance(distance);
+    drawPath(route.current);
+  }
 
   function drawPoint(position: GooglePoint) {
     if (point.current) {

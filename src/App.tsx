@@ -1,4 +1,4 @@
-import Mapbox from "./Mapbox";
+// import Mapbox from "./Mapbox";
 import GoogleMaps from "./GoogleMaps";
 
 function App() {
