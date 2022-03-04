@@ -1,11 +1,11 @@
-// import Mapbox from "./Mapbox";
-import GoogleMaps from "./GoogleMaps";
+import Mapbox from "./Mapbox";
+// import GoogleMaps from "./GoogleMaps";
 
 function App() {
   return (
     <article>
-      {/*<Mapbox />*/}
-      <GoogleMaps />
+      <Mapbox />
+      {/*<GoogleMaps />*/}
     </article>
   );
 }
